@@ -5,7 +5,7 @@ services:
   ##########################################################################
   90d-backend:
     container_name: 90d-backend
-    image: sfcm250110/docker-proyecto-90d-backend:1.0
+    image: darvin/90d-backend:1.0
     environment:
       - JAVA_OPTS= -Xms256M -Xmx256M
       - DATABASE_IP=192.168.100.83
@@ -13,5 +13,20 @@ services:
       - DATABASE_NAME=proyecto90d
       - DATABASE_USERNAME=darvi
       - DATABASE_PASSWORD=proyecto90d
+      - "FRONT_HOST=90d-frontend:"
+      - "BACK_HOST=90d-backend:"
+    ports:
+      - 8080:8080
+
+  ##########################################################################
+  # 90d-frontend service
+  ##########################################################################
+  90d-frontend:
+    container_name: 90d-frontend
+    image: darvin/90d-frontend:1.0
+    environment:
+      - REACT_APP_AXIOS_SERVER=http://90d-backend:8080
+      - REACT_APP_API_URL=http://90d-backend:8080/api/v1
+      - REACT_APP_URL=http://90d-backend:3000
     ports:
       - 3000:80
