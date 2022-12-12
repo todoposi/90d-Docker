@@ -13,20 +13,25 @@ services:
       - DATABASE_NAME=proyecto90d
       - DATABASE_USERNAME=darvi
       - DATABASE_PASSWORD=proyecto90d
-      - "FRONT_HOST=90d-frontend:"
-      - "BACK_HOST=90d-backend:"
     ports:
       - 8080:8080
+    networks:
+      - 90d-network
 
   ##########################################################################
-  # 90d-frontend service
+  # 90d-backend service
   ##########################################################################
   90d-frontend:
     container_name: 90d-frontend
     image: darvin/90d-frontend:1.0
     environment:
-      - REACT_APP_AXIOS_SERVER=http://90d-backend:8080
-      - REACT_APP_API_URL=http://90d-backend:8080/api/v1
-      - REACT_APP_URL=http://90d-backend:3000
+      - REACT_APP_ENV=PRODUCTION
+      - REACT_APP_AXIOS_SERVER=http://localhost:8080
+      - REACT_APP_API_URL=http://localhost:8080/api/v1
+      - REACT_APP_URL=http://localhost:3000
     ports:
       - 3000:80
+    networks:
+      - 90d-network
+networks:
+  90d-network:
